@@ -4,34 +4,55 @@
     <head>
         <style>
             #center {
-                position: absolute; 
-                left: 500; 
-                right: 0; 
                 margin-left: auto; 
                 margin-right: auto; 
-                width: 100px;
+                font-size: 64px;
+                color: white;
             }
         </style>
     </head>
     <body>
         <div id=center>
             <p id="time_span"></p>    
+            <p id="countdown"></p>
         </div>
         <script>
             function updateTime(){
+                let upcomingTime = 14
                 var currentTime = new Date()
                 var hours = currentTime.getHours()
                 var minutes = currentTime.getMinutes()
+                var seconds = currentTime.getSeconds()
                 if (minutes < 10){
                     minutes = "0" + minutes;
                 }
-                var t_str = hours + ":" + minutes + " ";
+                var t_str;
                 if(hours > 11){
-                    t_str += "PM";
+                    t_str = (hours - 12) + ":" + minutes + " PM";
                 } else {
-                    t_str += "AM";
+                    t_str = hours + ":" + minutes + " AM";
                 }
+
+                minutes = 59 - minutes;
+                seconds = 59 - seconds;
+                hours = upcomingTime - (hours + 1)
+
+                if (hours <= 0) {
+                    seconds = "00"
+                    minutes = "00"
+                }
+                else {
+                    if (minutes < 10){
+                        minutes = "0" + minutes;
+                    }
+                    if (seconds < 10){
+                        seconds = "0" + seconds;
+                    }
+                }
+
+                c_str = minutes + ":" + seconds;
                 document.getElementById('time_span').innerHTML = t_str;
+                document.getElementById('countdown').innerHTML = c_str;
             }
             setInterval(updateTime, 1000);
         </script>
